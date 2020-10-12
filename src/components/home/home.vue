@@ -11,7 +11,7 @@
         <el-col :span="18" class="middle"><h3>电商后台管理系统</h3></el-col>
         <el-col :span="2"
           ><div class="grid-content bg-purple">
-            <a class="login" href="#">退出</a>
+            <a class="login" @click.prevent="hadleSignout()" href="#">退出</a>
           </div></el-col
         >
       </el-row>
@@ -107,37 +107,38 @@ export default {
   components: {},
   data() {
     //这里存放数据
-    return {
-
-    };
+    return {};
   },
-
-
 
   //监听属性 类似于data概念
   computed: {},
   //监控data中的数据变化
   watch: {},
   //方法集合
-  methods: {},
+  methods: {
+    hadleSignout() {
+      // 清除token
+      localStorage.clear();
+      // 提示
+      this.$message.success("退出成功");
+      // 来到login页面
+      this.$router.push({ name: "login" });
+    },
+  },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {},
   beforeCreate() {
-// 获取token
-const token=localStorage.getItem('token')
-// if token 有->继续渲染组件
-if(!token){
-// token 没有=> 登录
-this.$router.push({name:'login'})
-}
+    // 获取token
+    const token = localStorage.getItem("token");
+    // if token 有->继续渲染组件
+    if (!token) {
+      // token 没有=> 登录
+      this.$router.push({ name: "login" });
+    }
 
-// newVue之前自动触发
-
-
-
-
+    // newVue之前自动触发
   }, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
   beforeUpdate() {}, //生命周期 - 更新之前
