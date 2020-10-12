@@ -107,8 +107,13 @@ export default {
   components: {},
   data() {
     //这里存放数据
-    return {};
+    return {
+
+    };
   },
+
+
+
   //监听属性 类似于data概念
   computed: {},
   //监控data中的数据变化
@@ -119,7 +124,21 @@ export default {
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {},
-  beforeCreate() {}, //生命周期 - 创建之前
+  beforeCreate() {
+// 获取token
+const token=localStorage.getItem('token')
+// if token 有->继续渲染组件
+if(!token){
+// token 没有=> 登录
+this.$router.push({name:'login'})
+}
+
+// newVue之前自动触发
+
+
+
+
+  }, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
   beforeUpdate() {}, //生命周期 - 更新之前
   updated() {}, //生命周期 - 更新之后
