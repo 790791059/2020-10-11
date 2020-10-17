@@ -65,13 +65,29 @@
             icon="el-icon-delete"
             plain
             circle
-            native-type="submit"
           ></el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    
+    <!-- @size-change 每页显示条数变化 触发 
+    @current-change 当前页改变 触发
+    :current-page 设置当前页是第几页
+    :page-sizes【100,200,400】 每页多少条数据数组
+    page-size 设置相似多少条
+    layout 
+    :total 数据总数 -->
+
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="pagenum"
+      :page-sizes="[1, 2, 3, 4]"
+      :page-size="2"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+    >
+    </el-pagination>
   </el-card>
 </template>
 
@@ -92,15 +108,15 @@ export default {
       total: 0,
       // 表格绑定的数据
       userlist: [
-        {
-          create_time: 1486720211,
-          email: "adsfad@qq.com",
-          id: 500,
-          mg_state: true,
-          mobile: "12345678",
-          role_name: "超级管理员",
-          username: "admin",
-        },
+        // {
+        //   create_time: 1486720211,
+        //   email: "adsfad@qq.com",
+        //   id: 500,
+        //   mg_state: true,
+        //   mobile: "12345678",
+        //   role_name: "超级管理员",
+        //   username: "admin",
+        // },
       ],
     };
   },
@@ -110,8 +126,6 @@ export default {
   watch: {},
   //方法集合
   methods: {
-
-
     // 获取用户列表的请求
     async getUserList() {
       // query   查询参数 可以为空
@@ -123,7 +137,7 @@ export default {
       const res = await this.$http.get(
         `users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${this.pagesize}`
       );
-      
+
       console.log(res);
       const {
         meta: { status, msg },
@@ -139,6 +153,25 @@ export default {
       } else {
         this.$message.warning(msg);
       }
+    },
+    // 分页相关方法
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      /*
+      24条
+      pagenum=3
+      pagesize=2
+      1,2/3,4/5,6
+      数据
+      */
+      this.pagesize = val;
+      this.pagenum = 1;
+      this.getUserList();
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.pagenum = val;
+      this.getUserList();
     },
   },
   //生命周期 - 创建完成（可以访问当前this实例）
