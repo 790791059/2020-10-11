@@ -48,7 +48,7 @@ export default {
     async handleLogin() {
       // 希望让异步操作的代码看起来像同步代码
       // es7 async+await
-      const res = await this.$http.post("/api/login", this.formdata);
+      const res = await this.$http.post("login", this.formdata);
       // console.log(res);
       const {
         data,
